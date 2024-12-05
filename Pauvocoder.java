@@ -1,7 +1,7 @@
 public class Pauvocoder {
 
     /**
-     *
+     * ré-echantillonner le signal audio
      * @param input
      * @param freqScale
      * @return
@@ -11,7 +11,7 @@ public class Pauvocoder {
     }
 
     /**
-     *
+     *ajoute un echo au signal d'entrée
      * @param input
      * @param delayMs
      * @param attn
@@ -22,7 +22,7 @@ public class Pauvocoder {
     }
 
     /**
-     *
+     *impémente une dilatation temporeille dans une vesion minimal
      * @param input
      * @param timeScale
      * @return
@@ -32,7 +32,7 @@ public class Pauvocoder {
     }
 
     /**
-     *
+     *dilatation temporelle sans clics
      * @param input
      * @param timeScale
      * @return
@@ -42,7 +42,7 @@ public class Pauvocoder {
     }
 
     /**
-     *
+     * dilatation temporelle sans clics et avec le maximum de coorélation
      * @param input
      * @param timeScale
      * @return
@@ -52,7 +52,8 @@ public class Pauvocoder {
     }
 
     /**
-     *
+     *envoie la sortie audio les données contenues dans le tableau input
+     * et produit un affichage des echantillons jouées en temps réel
      * @param input
      */
     public static void joue(double[] input){
