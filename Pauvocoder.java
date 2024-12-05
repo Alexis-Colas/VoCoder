@@ -59,15 +59,28 @@ public class Pauvocoder {
      * @return resampled wav
      */
     public static double[] resample(double[] inputWav, double freqScale) {
-        int taille = inputWav.length;
-        int tailleNewWav= (int)(taille/freqScale);
-        if(freqScale<1)
-            tailleNewWav += 1;
+        // Multiplier la longueur du tableau par la fréquence pour obtenir la taille final
+        int tailleNewWav = (int) (inputWav.length * freqScale);
         double[] newWav = new double[tailleNewWav];
 
-        for (int i = 0; i < taille; i++) {
-
+        if(freqScale==1){
+            return inputWav;
         }
+        if(freqScale>1){
+            int indiceInit;
+            for(int newIndice=0; newIndice<tailleNewWav; newIndice++){
+                indiceInit = (int)(newIndice/freqScale);
+                newWav[newIndice]=inputWav[indiceInit];
+            }
+        }
+        // VOIR SHEMA i=placement
+        // 3 cas f=1, f>1 et f<1
+        // Boucle i allant de 0 à newTaille
+        //  Calculer l'indice de l'ancien tableau a partir de l'indice du nouveau tableau
+        //  oldIndice = (int)(newIndice/frequence)
+        //  newWav[i] = oldWav[oldIndice]
+
+
     }
 
     /**
@@ -78,6 +91,18 @@ public class Pauvocoder {
      */
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
         throw new UnsupportedOperationException("Not implemented yet");
+        /*
+        int taille = inputWav.length;
+        int tailleNewWav= (int)(taille/freqScale);
+        if(freqScale<1)
+            tailleNewWav += 1;
+        double[] newWav = new double[tailleNewWav];
+
+        for (int i = 0; i < taille; i++) {
+
+        }
+
+         */
     }
 
     /**
