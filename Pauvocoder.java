@@ -60,32 +60,27 @@ public class Pauvocoder {
      * @return resampled wav
      */
     public static double[] resample(double[] inputWav, double freqScale) {
-        // Multiplier la longueur du tableau par la fréquence pour obtenir la taille final
-        double frequence=0.0;
-        if(freqScale < 1.0)
-            frequence = (1-freqScale)/freqScale;
-        if(freqScale > 1.0)
-            frequence = (freqScale-1)/freqScale;
+        // Vérifie que "freqScale" ne soit pas égale à 0 ou inférieur.
+        if (freqScale <= 0) {
+            throw new IllegalArgumentException("freqScale doit être strictement positif.");
+        }
 
+        // Diviser la longueur du tableau "inputWav"
+        // par la fréquence pour obtenir la taille du nouveau tableau.
         int tailleNewWav = (int) (inputWav.length / freqScale);
         double[] newWav = new double[tailleNewWav];
 
-        if(freqScale==1){
-            return inputWav;
-        }
-        if(freqScale>1 || freqScale<1){
-            int indiceInit;
-            for(int newIndice=0; newIndice<tailleNewWav; newIndice++){
-                indiceInit = (int)(newIndice*freqScale);
-                newWav[newIndice]=inputWav[indiceInit];
-            }
+        // Variable qui permet d'aller chercher la valeur dans "inputWav"
+        int indiceInit;
+        // Boucle pour remplir le nouveau tableau "newWav"
+        for (int newIndice = 0; newIndice < tailleNewWav; newIndice++) {
+            // Calcule l'indice de "inputWav"
+            // pour savoir la valeur qui va à l'indice "newIndice" dans "newWav"
+            indiceInit = (int) (newIndice * freqScale);
+            // Place la valeur a la position "newIndice" dans "newWav"
+            newWav[newIndice] = inputWav[indiceInit];
         }
         // VOIR SHEMA i=placement
-        // 3 cas f=1, f>1 et f<1
-        // Boucle i allant de 0 à newTaille
-        //  Calculer l'indice de l'ancien tableau a partir de l'indice du nouveau tableau
-        //  oldIndice = (int)(newIndice/frequence)
-        //  newWav[i] = oldWav[oldIndice]
         return newWav;
 
     }
