@@ -59,7 +59,15 @@ public class Pauvocoder {
      * @return resampled wav
      */
     public static double[] resample(double[] inputWav, double freqScale) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        int taille = inputWav.length;
+        int tailleNewWav= (int)(taille/freqScale);
+        if(freqScale<1)
+            tailleNewWav += 1;
+        double[] newWav = new double[tailleNewWav];
+
+        for (int i = 0; i < taille; i++) {
+
+        }
     }
 
     /**
