@@ -24,6 +24,7 @@ public class Pauvocoder {
 
         // Open input .wev file
         double[] inputWav = StdAudio.read(wavInFile);
+        StdAudio.save(outPutFile+"Resampled.wav", resample(inputWav, freqScale));
 
         // Resample test
         double[] newPitchWav = resample(inputWav, freqScale);
@@ -60,16 +61,22 @@ public class Pauvocoder {
      */
     public static double[] resample(double[] inputWav, double freqScale) {
         // Multiplier la longueur du tableau par la fréquence pour obtenir la taille final
-        int tailleNewWav = (int) (inputWav.length * freqScale);
+        double frequence=0.0;
+        if(freqScale < 1.0)
+            frequence = (1-freqScale)/freqScale;
+        if(freqScale > 1.0)
+            frequence = (freqScale-1)/freqScale;
+
+        int tailleNewWav = (int) (inputWav.length / freqScale);
         double[] newWav = new double[tailleNewWav];
 
         if(freqScale==1){
             return inputWav;
         }
-        if(freqScale>1){
+        if(freqScale>1 || freqScale<1){
             int indiceInit;
             for(int newIndice=0; newIndice<tailleNewWav; newIndice++){
-                indiceInit = (int)(newIndice/freqScale);
+                indiceInit = (int)(newIndice*freqScale);
                 newWav[newIndice]=inputWav[indiceInit];
             }
         }
@@ -79,7 +86,7 @@ public class Pauvocoder {
         //  Calculer l'indice de l'ancien tableau a partir de l'indice du nouveau tableau
         //  oldIndice = (int)(newIndice/frequence)
         //  newWav[i] = oldWav[oldIndice]
-
+        return newWav;
 
     }
 
