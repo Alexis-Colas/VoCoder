@@ -57,7 +57,7 @@ public class Pauvocoder {
      * Resample inputWav with freqScale
      * @param inputWav
      * @param freqScale
-     * @return resampled wav
+     * @return resampled newWav
      */
     public static double[] resample(double[] inputWav, double freqScale) {
         // Vérifie que "freqScale" ne soit pas égale à 0 ou inférieur.
@@ -80,7 +80,7 @@ public class Pauvocoder {
             // Place la valeur a la position "newIndice" dans "newWav"
             newWav[newIndice] = inputWav[indiceInit];
         }
-        // VOIR SHEMA i=placement
+        // VOIR SCHEMA i=placement
         return newWav;
 
     }
@@ -140,10 +140,30 @@ public class Pauvocoder {
      * @param wav
      * @param delay in msec
      * @param gain
-     * @return wav with echo
+     * @return  echoWav
      */
     public static double[] echo(double[] wav, double delay, double gain) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        // s'assurer que delay et gain sont contenus et justes
+        if (gain<0 || gain>1)
+            throw new UnsupportedOperationException("L'attenuation doit être contenu entre 0 et 1");
+        if (delay <0 )
+            throw new UnsupportedOperationException("Le delay ne peut pas être négatif");
+
+        //prendre chaque échantillons et ajouter un retard
+        //échantillon retardé = délais en ms * fréquence d'échantillonage /1000
+        int delayIndice = (int) ((delay * wav.length)/1000);
+        double echoWav[] = new double[wav.length];
+        for (int i = 0; i<wav.length; i++) {
+            echoWav[i] = wav[i - delayIndice] * gain;
+
+            //garder amplitude de -1/1
+            if (echoWav[i] > 1.0)
+                echoWav[i] = 1.0;
+            if(echoWav[i] < -1.0)
+                echoWav[i] = -1.0;
+
+        }
+        return echoWav;
     }
 
     /**
