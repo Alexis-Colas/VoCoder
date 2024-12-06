@@ -149,7 +149,7 @@ public class Pauvocoder {
         if (delay <0 )
             throw new UnsupportedOperationException("Le delay ne peut pas être négatif");
 
-        //prendre chaque échantillons et ajouter un retard
+        //prendre chaque échantillons et ajouter un retard -> les mettre dans nouveau tableau echoWav
         //échantillon retardé = délais en ms * fréquence d'échantillonage /1000
         int delayIndice = (int) ((delay * wav.length)/1000);
         double echoWav[] = new double[wav.length];
