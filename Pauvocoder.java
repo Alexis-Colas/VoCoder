@@ -89,7 +89,7 @@ public class Pauvocoder {
      * Simple dilatation, without any overlapping
      * @param inputWav
      * @param dilatation factor
-     * @return dilatedWav
+     * @return dilated dilatedWav
      */
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
         //message d'erreur si la valeur est négative ou égale à 0
@@ -99,16 +99,25 @@ public class Pauvocoder {
         //calcul la taille de dilatedWav
         //créer tableau
         int tailleDilated = (int)(inputWav.length / dilatation);
-        double [] dilatedWav = new double[tailleDilated];
+        double[] dilatedWav = new double[tailleDilated];
 
         //boucle pour remplir tableau
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        for (int i =0; i< tailleDilated +1; i++){
-            inputWav[i] = dilatedWav[i] * dilatation;
-            dilatedWav[i] = inputWav[i];
+        if (tailleDilated> inputWav.length) {
+            for (int i = 0; i < inputWav.length; i++) {
+                inputWav[i] = dilatedWav[i] * dilatation;
+                dilatedWav[i] = inputWav[i];
+            }
         }
+        if (tailleDilated< inputWav.length) {
+            for (int i = 0; i < tailleDilated; i++) {
+                inputWav[i] = dilatedWav[i] * dilatation;
+                dilatedWav[i] = inputWav[i];
+            }
+        }
+
 
         return dilatedWav;
     }
@@ -146,7 +155,7 @@ public class Pauvocoder {
      * @param wav
      * @param delay in msec
      * @param gain
-     * @return  echoWav
+     * @return  echo echoWav
      */
     public static double[] echo(double[] wav, double delay, double gain) {
         // s'assurer que delay et gain sont contenus et justes
