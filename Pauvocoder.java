@@ -89,7 +89,7 @@ public class Pauvocoder {
      * Simple dilatation, without any overlapping
      * @param inputWav
      * @param dilatation factor
-     * @return dilated wav
+     * @return dilatedWav
      */
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
         //message d'erreur si la valeur est négative ou égale à 0
@@ -105,7 +105,7 @@ public class Pauvocoder {
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        for (int i =0; i<tailleDilated; i++){
+        for (int i =0; i< tailleDilated +1; i++){
             inputWav[i] = dilatedWav[i] * dilatation;
             dilatedWav[i] = inputWav[i];
         }
