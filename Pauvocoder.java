@@ -92,19 +92,25 @@ public class Pauvocoder {
      * @return dilated wav
      */
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
-        throw new UnsupportedOperationException("Not implemented yet");
-        /*
-        int taille = inputWav.length;
-        int tailleNewWav= (int)(taille/freqScale);
-        if(freqScale<1)
-            tailleNewWav += 1;
-        double[] newWav = new double[tailleNewWav];
+        //message d'erreur si la valeur est négative ou égale à 0
+        if (dilatation <=0)
+            throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
 
-        for (int i = 0; i < taille; i++) {
+        //calcul la taille de dilatedWav
+        //créer tableau
+        int tailleDilated = (int)(inputWav.length / dilatation);
+        double [] dilatedWav = new double[tailleDilated];
 
+        //boucle pour remplir tableau
+        //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
+        //pour ensuite le mettre à la suite dans le tableau dilaté
+        //voir schéma séquences qui se superposent
+        for (int i =0; i<tailleDilated; i++){
+            inputWav[i] = dilatedWav[i] * dilatation;
+            dilatedWav[i] = inputWav[i];
         }
 
-         */
+        return dilatedWav;
     }
 
     /**
