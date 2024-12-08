@@ -153,7 +153,7 @@ public class Pauvocoder {
         //échantillon retardé = délais en ms * fréquence d'échantillonage /1000
         int delayIndice = (int) ((delay * wav.length)/1000);
         double echoWav[] = new double[wav.length];
-        for (int i = 0; i<wav.length; i++) {
+        for (int i = 0; i<(wav.length + delay); i++) {
             echoWav[i] = wav[i - delayIndice] * gain;
 
             //garder amplitude de -1/1
