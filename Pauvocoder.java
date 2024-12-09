@@ -30,7 +30,7 @@ public class Pauvocoder {
         StdAudio.save(outPutFile+"Resampled.wav", newPitchWav);
 
         // Simple dilatation
-        double[] outputWav   = vocodeSimple(newPitchWav, 1.0/freqScale);
+        double[] outputWav  = vocodeSimple(newPitchWav, 1.0/freqScale);
         StdAudio.save(outPutFile+"Simple.wav", outputWav);
 
         // Simple dilatation with overlaping
@@ -104,17 +104,10 @@ public class Pauvocoder {
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        if (tailleDilated> inputWav.length) {
-            for (int i = 0; i < inputWav.length; i++) {
-                inputWav[i] = (dilatedWav[i] * dilatation);
-                dilatedWav[i] = inputWav[i];
-            }
-        }
-        if (tailleDilated< inputWav.length) {
-            for (int i = 0; i < tailleDilated; i++) {
-                inputWav[i] = dilatedWav[i] * dilatation;
-                dilatedWav[i] = inputWav[i];
-            }
+        int indiceInit;
+        for (int i = 0; i < tailleDilated; i++) {
+            indiceInit = (int)(i * dilatation);
+            dilatedWav[i] = inputWav[indiceInit];
         }
 
         return dilatedWav;
