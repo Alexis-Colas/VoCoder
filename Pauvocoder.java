@@ -107,7 +107,7 @@ public class Pauvocoder {
         //voir schéma séquences qui se superposent
         if (tailleDilated> inputWav.length) {
             for (int i = 0; i < inputWav.length; i++) {
-                inputWav[i] = dilatedWav[i] * dilatation;
+                inputWav[i] = (dilatedWav[i] * dilatation);
                 dilatedWav[i] = inputWav[i];
             }
         }
@@ -117,7 +117,6 @@ public class Pauvocoder {
                 dilatedWav[i] = inputWav[i];
             }
         }
-
 
         return dilatedWav;
     }
