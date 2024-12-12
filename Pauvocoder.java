@@ -107,22 +107,23 @@ public class Pauvocoder {
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        if ( dilatation <1){
+        if ( dilatation >1){
             int debut =0;
-            int pivot = 0 ;
+            double pivot = 10 / dilatation ;
+            int fin = (int)(debut + pivot);
             int i ;
 
 
             do {
-                for (i =debut; i <= pivot; i++)
+                for (i =debut; i <= fin; i++)
                     dilatedWav[i] = inputWav[i];
 
             dilatedWav[i + 1] = inputWav[i + 2];
-            debut = pivot + 3;
-            pivot = (int)(debut +(1-dilatation) );
-            System.out.println( pivot);
+            debut = i + 3;
+            fin = (int)(debut + pivot );
+            System.out.println( fin);
 
-            }while (pivot < tailleDilated);
+            }while (fin < tailleDilated);
 
             for ( i =debut; i< dilatedWav.length; i ++)
                 dilatedWav[i] = inputWav[i];
@@ -142,7 +143,7 @@ public class Pauvocoder {
 
                 }
 
-            for ( i = debut; i< dilatedWav.length; i ++)
+            for ( i = debut; i< inputWav.length; i ++)
                 dilatedWav[i] = inputWav[i];
 
         }
