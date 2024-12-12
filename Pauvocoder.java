@@ -115,15 +115,14 @@ public class Pauvocoder {
             int pivot = (int) (debut + dilatation) ;
             int i=0;
 
-            while (pivot< dilatedWav.length)
-                for ( i = debut; i< pivot; i ++) {
+            while (pivot< dilatedWav.length) {
+                for (i = debut; i < pivot; i++)
                     dilatedWav[i] = inputWav[i];
-                    dilatedWav[i + 1] = inputWav[i + 2];
-                    debut = i+3;
-                    pivot = (int) (debut + dilatation);
 
-                }
-
+                dilatedWav[i + 1] = inputWav[i + 2];
+                debut = i + 3;
+                pivot = (int) (debut + dilatation);
+            }
             for ( i = debut; i< dilatedWav.length; i ++)
                 dilatedWav[i] = inputWav[i];
 
