@@ -31,9 +31,6 @@ public class Pauvocoder {
         double[] newPitchWav = resample(inputWav, freqScale);
         StdAudio.save(outPutFile+"Resampled.wav", newPitchWav);
 
-        joue(newPitchWav);
-
-        /*
         // Simple dilatation
         double[] outputWav  = vocodeSimple(newPitchWav, 1.0/freqScale);
         StdAudio.save(outPutFile+"Simple.wav", outputWav);
@@ -55,7 +52,6 @@ public class Pauvocoder {
         // Display waveform
         displayWaveform(outputWav);
 
-         */
 
     }
 
