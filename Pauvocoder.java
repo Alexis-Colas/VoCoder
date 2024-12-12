@@ -52,6 +52,7 @@ public class Pauvocoder {
         // Display waveform
         displayWaveform(outputWav);
 
+
     }
 
     /**
@@ -183,7 +184,9 @@ public class Pauvocoder {
      * @param wav
      */
     public static void joue(double[] wav) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        for(int i=0; i<wav.length; i++){
+            StdAudio.play(wav[i]);
+        }
     }
 
     /**
