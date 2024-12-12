@@ -110,6 +110,43 @@ public class Pauvocoder {
             dilatedWav[i] = inputWav[indiceInit];
         }
 
+        if ( dilatation > 1){
+            int debut =0;
+            int pivot = (int) (debut + dilatation) ;
+            int i=0;
+
+            while (pivot< dilatedWav.length)
+                for ( i = debut; i< pivot; i ++) {
+                    dilatedWav[i] = inputWav[i];
+                    dilatedWav[i + 1] = inputWav[i + 2];
+                    debut = i+3;
+                    pivot = (int) (debut + dilatation);
+
+                }
+
+            for ( i = debut; i< dilatedWav.length; i ++)
+                dilatedWav[i] = inputWav[i];
+
+        }
+        if ( dilatation < 1){
+            int debut =0;
+            int pivot = (int) (debut + dilatation) ;
+            int i=0;
+
+            while (pivot< dilatedWav.length)
+                for ( i = debut; i< pivot; i ++) {
+                    dilatedWav[i] = inputWav[i];
+                    dilatedWav[i + 1] = inputWav[i + 2];
+                    debut = i+2;
+                    pivot = (int) (debut + dilatation);
+
+                }
+
+            for ( i = debut; i< dilatedWav.length; i ++)
+                dilatedWav[i] = inputWav[i];
+
+        }
+
         return dilatedWav;
     }
 
@@ -119,7 +156,7 @@ public class Pauvocoder {
      * @param dilatation factor
      * @return dilated wav
      */
-    public static double[] vocodeSimpleOver(double[] inputWav, double dilatation) {
+    public static double[] vocodeSimpleOver (double[] inputWav, double dilatation) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
