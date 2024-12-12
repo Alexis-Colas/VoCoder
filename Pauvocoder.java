@@ -4,7 +4,7 @@ import static java.lang.System.exit;
 
 public class Pauvocoder {
 
-    // Processing SEQUENCE size (100 msec with 44100Hz samplerate) test
+    // Processing SEQUENCE size (100 msec with 44100Hz samplerate)
     final static int SEQUENCE = StdAudio.SAMPLE_RATE/10;
 
     // Overlapping size (20 msec)
