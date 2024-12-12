@@ -1,3 +1,5 @@
+import java.sql.SQLOutput;
+
 import static java.lang.System.exit;
 
 public class Pauvocoder {
@@ -104,26 +106,24 @@ public class Pauvocoder {
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        int indiceInit;
-        for (int i = 0; i < tailleDilated; i++) {
-            indiceInit = (int)(i * dilatation);
-            dilatedWav[i] = inputWav[indiceInit];
-        }
-
-        if ( dilatation > 1){
+        if ( dilatation <1){
             int debut =0;
-            int pivot = (int) (debut + dilatation) ;
-            int i=0;
+            int pivot = 0 ;
+            int i ;
 
-            while (pivot< dilatedWav.length) {
-                for (i = debut; i < pivot; i++)
+
+            do {
+                for (i =debut; i <= pivot; i++)
                     dilatedWav[i] = inputWav[i];
 
-                dilatedWav[i + 1] = inputWav[i + 2];
-                debut = i + 3;
-                pivot = (int) (debut + dilatation);
-            }
-            for ( i = debut; i< dilatedWav.length; i ++)
+            dilatedWav[i + 1] = inputWav[i + 2];
+            debut = pivot + 3;
+            pivot = (int)(debut +(1-dilatation) );
+            System.out.println( pivot);
+
+            }while (pivot < tailleDilated);
+
+            for ( i =debut; i< dilatedWav.length; i ++)
                 dilatedWav[i] = inputWav[i];
 
         }
