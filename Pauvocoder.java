@@ -31,6 +31,9 @@ public class Pauvocoder {
         double[] newPitchWav = resample(inputWav, freqScale);
         StdAudio.save(outPutFile+"Resampled.wav", newPitchWav);
 
+        joue(newPitchWav);
+
+        /*
         // Simple dilatation
         double[] outputWav  = vocodeSimple(newPitchWav, 1.0/freqScale);
         StdAudio.save(outPutFile+"Simple.wav", outputWav);
@@ -51,6 +54,8 @@ public class Pauvocoder {
 
         // Display waveform
         displayWaveform(outputWav);
+
+         */
 
     }
 
@@ -174,7 +179,9 @@ public class Pauvocoder {
      * @param wav
      */
     public static void joue(double[] wav) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        for(int i=0; i<wav.length; i++){
+            StdAudio.play(wav[i]);
+        }
     }
 
     /**
