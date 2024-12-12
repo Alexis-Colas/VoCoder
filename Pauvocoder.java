@@ -106,7 +106,7 @@ public class Pauvocoder {
         //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
         //pour ensuite le mettre à la suite dans le tableau dilaté
         //voir schéma séquences qui se superposent
-        if ( dilatation >1){
+        if ( dilatation > 1){
             int debut =0;
             double pivot = 10 / dilatation ;
             int fin = (int)(debut + pivot);
@@ -127,24 +127,32 @@ public class Pauvocoder {
             for ( i =debut; i< dilatedWav.length; i ++)
                 dilatedWav[i] = inputWav[i];
 
-        }
-        if ( dilatation < 1){
-            int debut =0;
-            int pivot = (int) (debut + dilatation) ;
-            int i=0;
+        } else {
+            int iDebut=0;
+            int jDebut=0;
+            int pivot = (int)(10 / dilatation)  ;
+            int iFin = (int)(iDebut + pivot);
+            int jFin = (int)(jDebut + pivot);
 
-            while (pivot< dilatedWav.length)
-                for ( i = debut; i< pivot; i ++) {
-                    dilatedWav[i] = inputWav[i];
-                    dilatedWav[i + 1] = inputWav[i + 2];
-                    debut = i+2;
-                    pivot = (int) (debut + dilatation);
+            do {
+                int i=0;
+                int j=0;
+                for ( i = iDebut; i <= iFin; i++)
+                    for (  j = jDebut; j<= jFin; j++)
+                        dilatedWav[i] = inputWav[j];
 
-                }
+            dilatedWav[i + 1] = inputWav[j];
+            iDebut = i + 2;
+            jDebut = j +1;
+            iFin = iDebut + pivot ;
+            jFin = jDebut + pivot ;
+            System.out.println( j+ "   " + i);
 
-            for ( i = debut; i< inputWav.length; i ++)
-                dilatedWav[i] = inputWav[i];
+            }while (jFin < inputWav.length);
 
+            for ( int i =iDebut; i <= inputWav.length; i++)
+                for ( int j = jDebut; j<= inputWav.length; j++)
+                    dilatedWav[i] = inputWav[j];
         }
 
         return dilatedWav;
