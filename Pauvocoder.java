@@ -108,7 +108,8 @@ public class Pauvocoder {
         //voir schéma séquences qui se superposent
         if ( dilatation <1){
             int debut =0;
-            int pivot = 0 ;
+            double pivot = 10 / dilatation ;
+            int fin =(int) (debut + pivot);
             int i ;
 
 
@@ -117,8 +118,8 @@ public class Pauvocoder {
                     dilatedWav[i] = inputWav[i];
 
             dilatedWav[i + 1] = inputWav[i + 2];
-            debut = pivot + 3;
-            pivot = (int)(debut +(1-dilatation) );
+            debut = i + 3;
+            pivot = (int)(debut + dilatation );
             System.out.println( pivot);
 
             }while (pivot < tailleDilated);
