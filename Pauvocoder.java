@@ -158,10 +158,11 @@ public class Pauvocoder {
         }*/
         int indice =0;
         for (int i = 0; i < inputWav.length; i++){ //ancien
-            indice =  (int) (i * dilatation) ;
-            dilatedWav[i] = inputWav[indice];
-            System.out.println( indice);
+            indice =  (int) (i / dilatation) ;
+            if (indice < inputWav.length)
+                dilatedWav[i] = inputWav[indice];
 
+            System.out.println( indice);
 
         }
 
