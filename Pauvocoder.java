@@ -103,66 +103,19 @@ public class Pauvocoder {
         int tailleDilated = (int)(inputWav.length / dilatation);
         double[] dilatedWav = new double[tailleDilated];
 
-        //boucle pour remplir tableau
-        //calcule la longueur de l'indice inputWav = indice dilatedWav * dilatation
-        //pour ensuite le mettre à la suite dans le tableau dilaté
-        //voir schéma séquences qui se superposent
-       /* if ( dilatation > 1){
-            int debut =0;
-            double pivot = 10 / dilatation ;
-            int fin = (int)(debut + pivot);
-            int i ;
 
+        //découper en séquence
+        for (int seq = 0; seq< inputWav.length; seq ++) {
+            int debut = seq * SEQUENCE;
+            int fin = debut + SEQUENCE;
 
-            do {
-                for (i =debut; i <= fin; i++)
-                    dilatedWav[i] = inputWav[i];
+            int indice =0;
+            for (int i = debut; i<fin; i++){
+                indice =  (int) (i / dilatation) ;
+                if (indice < inputWav.length)
+                    dilatedWav[i] = inputWav[indice];
 
-            dilatedWav[i + 1] = inputWav[i + 2];
-            debut = i + 3;
-            fin = (int)(debut + pivot );
-            System.out.println( fin);
-
-            }while (fin < tailleDilated);
-
-            for ( i =debut; i< dilatedWav.length; i ++)
-                dilatedWav[i] = inputWav[i];
-
-        } else {*/
-           /* int iDebut=0;
-            int jDebut=0;
-            int pivot = (int)(10 / dilatation)  ;
-            int iFin = (int)(iDebut + pivot);
-            int jFin = (int)(jDebut + pivot);
-
-            do {
-                int i=0;
-                int j=0;
-                for ( i = iDebut; i <= iFin; i++)
-                    for (  j = jDebut; j<= jFin; j++)
-                        dilatedWav[i] = inputWav[j];
-
-            dilatedWav[i + 1] = inputWav[j];
-            iDebut = i + 2;
-            jDebut = j +1;
-            iFin = iDebut + pivot ;
-            jFin = jDebut + pivot ;
-            System.out.println( j+ "   " + i);
-
-            }while (jFin < inputWav.length);
-
-            for ( int i =iDebut; i <= inputWav.length; i++)
-                for ( int j = jDebut; j<= inputWav.length; j++)
-                    dilatedWav[i] = inputWav[j];
-
-        }*/
-        int indice =0;
-        for (int i = 0; i < inputWav.length; i++){ //ancien
-            indice =  (int) (i / dilatation) ;
-            if (indice < inputWav.length)
-                dilatedWav[i] = inputWav[indice];
-
-            System.out.println( indice);
+            }
 
         }
 
