@@ -105,11 +105,12 @@ public class Pauvocoder {
 
 
         //découper en séquence pour tout inputWav
+        int tailleSeq = (int)(inputWav.length / SEQUENCE)
         int debut = 0;
         for (int i=0; i< inputWav.length; i++) {
 
             //initialiser tableau seq à dilater
-            int[] seq = new int[(int) (SEQUENCE / dilatation)];
+            int[] seq = new int[(int) (tailleSeq / dilatation)];
 
             //dilater et remplir la séquence
             for (int iSeq = debut; iSeq < seq.length; iSeq++) {
