@@ -104,18 +104,25 @@ public class Pauvocoder {
         double[] dilatedWav = new double[tailleDilated];
 
 
-        //découper en séquence
-        for (int seq = 0; seq< inputWav.length; seq ++) {
-            int debut = seq * SEQUENCE;
-            int fin = debut + SEQUENCE;
+        //découper en séquence pour tout inputWav
+        int debut = 0;
+        for (int i=0; i< inputWav.length; i++) {
 
-            int indice =0;
-            for (int i = debut; i<fin; i++){
-                indice =  (int) (i / dilatation) ;
-                if (indice < inputWav.length)
-                    dilatedWav[i] = inputWav[indice];
+            //initialiser tableau seq à dilater
+            int[] seq = new int[(int) (SEQUENCE / dilatation)];
 
+            //dilater et remplir la séquence
+            for (int iSeq = debut; iSeq < seq.length; iSeq++) {
+                int iD = (int) (iSeq / dilatation);
+                seq[iSeq] = inputWav[iD];
             }
+
+            //transférer la seq dans dilatedWav
+            for (int j = debut; j<seq.length; j++)
+                dilatedWav[j] = seq[j];
+
+
+            debut= i*SEQUENCE;
 
         }
 
