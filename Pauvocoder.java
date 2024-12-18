@@ -186,9 +186,8 @@ public class Pauvocoder {
      * @param wav
      */
     public static void joue(double[] wav) {
-        for(int i=0; i<wav.length; i++){
-            StdAudio.play(wav[i]);
-        }
+        new Thread(() -> StdAudio.play(wav)).start();
+        displayWaveform(wav);
     }
 
     /**
@@ -205,12 +204,18 @@ public class Pauvocoder {
         if (delay <0 )
             throw new UnsupportedOperationException("Le delay ne peut pas être négatif");
 
-        //prendre chaque échantillons et ajouter un retard -> les mettre dans nouveau tableau echoWav
-        //échantillon retardé = délais en ms * fréquence d'échantillonage /1000
-        int delayIndice = (int) ((delay * wav.length)/1000);
-        double echoWav[] = new double[wav.length];
-        for (int i = 0; i<(wav.length + delay); i++) {
-            echoWav[i] = wav[i - delayIndice] * gain;
+        // Calcule le nombre d'échantillon que représente delay
+        int nbEchantillonDelay = (int)(StdAudio.SAMPLE_RATE*delay)/1000;
+        double echoWav[] = new double[wav.length+nbEchantillonDelay];
+
+        // Ajoute l'échantillon avec le delay et le gain
+        for(int i = 0; i < wav.length; i++){
+            echoWav[i+nbEchantillonDelay] = wav[i]*gain;
+        }
+
+        // Ajoute le son de base a l'echo.
+        for (int i = 0; i<wav.length; i++) {
+            echoWav[i] += wav[i];
 
             //garder amplitude de -1/1
             if (echoWav[i] > 1.0)
@@ -227,8 +232,28 @@ public class Pauvocoder {
      * @param wav
      */
     public static void displayWaveform(double[] wav) {
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        int taille = wav.length;
+        int tabSeqTaille = 4000;
+        double pas = 0.8/tabSeqTaille; // 0.8 est la longueur de l'affichage
+        int seqTaille = taille/tabSeqTaille;
+        double moyenne = 0.0;
+
+        StdDraw.setYscale(-2, 2);
+        StdDraw.setPenRadius(0.001);
+
+        for(int i = 0; i < tabSeqTaille; i++){
+            int start = i * seqTaille;
+            int end = start + seqTaille;
+            for(int j = start; j < end; j++){
+                moyenne += wav[j];
+            }
+
+            moyenne /= seqTaille;
+            double x = 0.1 + (i * pas);
+            StdDraw.line(x, 0, x, moyenne);
+            moyenne = 0;
+        }
     }
-
-
+    
 }
