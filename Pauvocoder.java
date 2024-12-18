@@ -118,16 +118,9 @@ public class Pauvocoder {
 
             //dilater et remplir la séquence
             for (int iSeq = debut; iSeq < fin; iSeq++) {
-                int indice = (int) (iSeq / dilatation);
-                seq[iSeq] = inputWav[indice];
+                int indice = (i * tailleSeq) + (int) ((iSeq - debut) * dilatation);
+                dilatedWav[iSeq] = inputWav[indice];
             }
-
-            //transférer la seq dans dilatedWav
-            for (int j = debut; j<seq.length; j++)
-                dilatedWav[j] = seq[j];
-
-
-            debut= i*SEQUENCE;
 
         }
 
