@@ -106,13 +106,12 @@ public class Pauvocoder {
 
         //découper en séquence pour tout inputWav
         int tailleSeq = (int)(inputWav.length / SEQUENCE); //taille de la sequence à modifier dans le input wav
-        int debut =0;
         int tailleSeqDilated = (int)( tailleSeq /dilatation); //taille de la sequence après dilatation
-        int fin = debut + tailleSeqDilated;                  // borne de fin après dilataion
 
         for (int i=0; i< inputWav.length; i++) {
 
-            debut = i * tailleSeqDilated;                 //borne de début après dilatation
+            int debut = i * tailleSeqDilated;                 //borne de début après dilatation
+            int fin = debut + tailleSeqDilated;                 // borne de fin après dilataion
 
             //dilater et remplir la séquence
             for (int iSeq = debut; iSeq < fin; iSeq++) {
