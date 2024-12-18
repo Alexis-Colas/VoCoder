@@ -102,16 +102,19 @@ public class Pauvocoder {
         if (dilatation == 1)
             return inputWav;
 
+        //créer une liste qui contiendra tous les éléments
         ArrayList<Double> sequence = new ArrayList<>();
-        int step = (int) (SEQUENCE * dilatation);
+        //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
+        int saut = (int) (SEQUENCE * dilatation);
 
-        for (int i = 0; i <= inputWav.length - SEQUENCE; i += step) {
+        //boucle qui copie les éléments de la sequence du tableaux initial dans la liste
+        for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
             for (int j = 0; j < SEQUENCE; j++)
                 sequence.add(inputWav[i + j]);
         }
 
+        //initalisation du tableau final dilaté et copie des éléments de la liste au tableau
         double[] dilatedWav = new double[sequence.size()];
-
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
