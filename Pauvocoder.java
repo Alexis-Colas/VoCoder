@@ -1,4 +1,5 @@
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
@@ -98,29 +99,22 @@ public class Pauvocoder {
         if (dilatation <=0)
             throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
 
-        //calcul la taille de dilatedWav
-        //créer tableau
-        int tailleDilated = (int)(inputWav.length / dilatation);
-        double[] dilatedWav = new double[tailleDilated];
+        if (dilatation == 1)
+            return inputWav;
 
+        ArrayList<Double> sequence = new ArrayList<>();
+        int step = (int) (SEQUENCE * dilatation);
 
-        //découper en séquence pour tout inputWav
-        int tailleSeq = (int)(inputWav.length / SEQUENCE); //taille de la sequence à modifier dans le input wav
-        int tailleSeqDilated = (int)( tailleSeq /dilatation); //taille de la sequence après dilatation
-
-        for (int i=0; i< inputWav.length; i++) {
-
-            int debut = i*tailleSeq;                                 //borne début avant dilatation
-            int debutDilated = i * tailleSeqDilated;                 //borne de début après dilatation
-            int fin = debutDilated + tailleSeqDilated;               // borne de fin après dilataion
-
-            //dilater et remplir la séquence
-            for (int iSeq = debutDilated; iSeq < fin; iSeq++) {
-                int indice = debut + (int) ((i - debutDilated) / dilatation); //le debut de la taille normal de la sequence + l'indice dans la sequence dilaté * la dilatation
-                dilatedWav[iSeq] = inputWav[indice];
-            }
-
+        for (int i = 0; i <= inputWav.length - SEQUENCE; i += step) {
+            for (int j = 0; j < SEQUENCE; j++)
+                sequence.add(inputWav[i + j]);
         }
+
+        double[] dilatedWav = new double[sequence.size()];
+
+        for (int i = 0; i < sequence.size(); i++)
+            dilatedWav[i] = sequence.get(i);
+
 
         return dilatedWav;
     }
