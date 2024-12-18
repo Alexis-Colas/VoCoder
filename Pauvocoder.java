@@ -110,12 +110,13 @@ public class Pauvocoder {
 
         for (int i=0; i< inputWav.length; i++) {
 
-            int debut = i * tailleSeqDilated;                 //borne de début après dilatation
-            int fin = debut + tailleSeqDilated;                 // borne de fin après dilataion
+            int debut = i*tailleSeq;                                 //borne début avant dilatation
+            int debutDilated = i * tailleSeqDilated;                 //borne de début après dilatation
+            int fin = debutDilated + tailleSeqDilated;               // borne de fin après dilataion
 
             //dilater et remplir la séquence
-            for (int iSeq = debut; iSeq < fin; iSeq++) {
-                int indice = (i * tailleSeq) + (int) ((iSeq - debut) * dilatation); //le debut de la taille normal de la sequence + l'indice dans la sequence dilaté * la dilatation
+            for (int iSeq = debutDilated; iSeq < fin; iSeq++) {
+                int indice = debut + (int) ((i - debutDilated) / dilatation); //le debut de la taille normal de la sequence + l'indice dans la sequence dilaté * la dilatation
                 dilatedWav[iSeq] = inputWav[indice];
             }
 
