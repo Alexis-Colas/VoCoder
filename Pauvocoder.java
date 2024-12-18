@@ -148,7 +148,7 @@ public class Pauvocoder {
             //boucle qui sur l'overlap du début, ajout du coef pondéré
             for (int j = 0; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
-                sequence.add(coeffMonte);
+                sequence.add(inputWav[i+j] * coeffMonte);
             }
             //boucle du milieu de sequence, sans changement
             for (int j = OVERLAP; j < SEQUENCE-OVERLAP; j++)
@@ -157,7 +157,7 @@ public class Pauvocoder {
             //boucle de l'overlap de fin
             for (int j = SEQUENCE-OVERLAP; j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
-                sequence.add(coeffDescend);
+                sequence.add(inputWav[i+j] *coeffDescend);
             }
 
         }
