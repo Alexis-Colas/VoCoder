@@ -203,18 +203,20 @@ public class Pauvocoder {
                 //initialiser à 0 la coorélation croisée
                 double coorelation =0.0;
 
+                //boucle j=0 à overlap pour calculer la coorélation croisée
+                for (int j=0; j<OVERLAP; j++){
+                    int seqPrec = i + SEQUENCE - OVERLAP + j; //valeur fin sequence précédente
+                    int seqSuiv = i + offset + j ;           //valeur debut sequence suivante
+
+                    if (seqSuiv < inputWav.length)
+                        coorelation += inputWav[seqPrec] * inputWav[seqSuiv];
+                }
+
+                // si la coorélation est supérieur à int optimal alors int optimal offset=> le décalage
+                if (coorelation > offsetOptimal)
+                    offsetOptimal = offset;
+
             }
-
-
-
-            //boucle j=0 à overlap
-            //marquer les indice de sequence précédente et suivante
-            //vérifier si dépassement tableau ou mettre boucle moins 1 de base
-            //pour ces indice la coorélation est indice prec * indice suiv
-            // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation
-
-
-
 
             //boucle qui sur l'overlap du début, ajout du coef pondéré
             for (int j = 0; j < OVERLAP; j++) {
