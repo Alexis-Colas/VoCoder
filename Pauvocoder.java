@@ -178,7 +178,61 @@ public class Pauvocoder {
      * @return dilated wav
      */
     public static double[] vocodeSimpleOverCross(double[] inputWav, double dilatation) {
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        //message d'erreur si la valeur est négative ou égale à 0
+        if (dilatation <=0)
+            throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
+
+        if (dilatation == 1)
+            return inputWav;
+
+        //créer une liste qui contiendra tous les éléments
+        ArrayList<Double> sequence = new ArrayList<>();
+        //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
+        int saut = (int) (SEQUENCE * dilatation);
+
+        //determiner le décalage optimal
+
+        //initialiser un int optimal
+
+        //boucle pour evaluer les décalage possibles
+        //de 0 à la longueur de seekwindow
+
+        //initialiser à 0 la coorélation croisée
+        //boucle j=0 à overlap
+        //marquer les indice de sequence précédente et suivante
+        //vérifier si dépassement tableau ou mettre boucle moins 1 de base
+        //pour ces indice la coorélation est indice prec * indice suiv
+        // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation jusqu'à la fin de la boucle
+
+
+        for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
+
+            //boucle qui sur l'overlap du début, ajout du coef pondéré
+            for (int j = 0; j < OVERLAP; j++) {
+                double coeffMonte = (double) j / OVERLAP;
+                sequence.add(inputWav[i+j] * coeffMonte);
+            }
+            //boucle du milieu de sequence, sans changement
+            for (int j = OVERLAP; j < SEQUENCE-OVERLAP; j++)
+                sequence.add(inputWav[i + j]);
+
+            //boucle de l'overlap de fin
+            for (int j = SEQUENCE-OVERLAP; j < SEQUENCE; j++) {
+                double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
+                sequence.add(inputWav[i+j] *coeffDescend);
+            }
+
+        }
+
+        //initalisation du tableau final dilaté et copie des éléments de la liste au tableau
+        double[] dilatedWav = new double[sequence.size()];
+        for (int i = 0; i < sequence.size(); i++)
+            dilatedWav[i] = sequence.get(i);
+
+
+        return dilatedWav;
+
     }
 
     /**
