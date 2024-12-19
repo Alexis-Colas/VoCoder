@@ -191,22 +191,30 @@ public class Pauvocoder {
         //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
         int saut = (int) (SEQUENCE * dilatation);
 
-        //determiner le décalage optimal
-
-        //initialiser un int optimal
-
-        //boucle pour evaluer les décalage possibles
-        //de 0 à la longueur de seekwindow
-
-        //initialiser à 0 la coorélation croisée
-        //boucle j=0 à overlap
-        //marquer les indice de sequence précédente et suivante
-        //vérifier si dépassement tableau ou mettre boucle moins 1 de base
-        //pour ces indice la coorélation est indice prec * indice suiv
-        // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation jusqu'à la fin de la boucle
-
-
         for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
+
+            //determiner le décalage optimal
+            //initialiser un int optimal
+            int offsetOptimal = 0;
+
+            //boucle pour evaluer les décalage possibles
+            //de 0 à la longueur de seekwindow
+            for (int offset =0; offset < SEEK_WINDOW; offset ++){
+                //initialiser à 0 la coorélation croisée
+                double coorelation =0.0;
+
+            }
+
+
+
+            //boucle j=0 à overlap
+            //marquer les indice de sequence précédente et suivante
+            //vérifier si dépassement tableau ou mettre boucle moins 1 de base
+            //pour ces indice la coorélation est indice prec * indice suiv
+            // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation jusqu'à la fin de la boucle
+
+
+
 
             //boucle qui sur l'overlap du début, ajout du coef pondéré
             for (int j = 0; j < OVERLAP; j++) {
