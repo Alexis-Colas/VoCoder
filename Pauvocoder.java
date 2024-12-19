@@ -211,7 +211,7 @@ public class Pauvocoder {
             //marquer les indice de sequence précédente et suivante
             //vérifier si dépassement tableau ou mettre boucle moins 1 de base
             //pour ces indice la coorélation est indice prec * indice suiv
-            // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation jusqu'à la fin de la boucle
+            // si la coorélation est supérieur à int optimal alors int optimal devient la coorélation
 
 
 
