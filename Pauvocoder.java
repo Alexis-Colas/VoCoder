@@ -218,19 +218,19 @@ public class Pauvocoder {
 
             }
 
-            //boucle qui sur l'overlap du début, ajout du coef pondéré
+            //boucle qui sur l'overlap du début, ajout du coef pondéré et ajout du offset optimal
             for (int j = 0; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
-                sequence.add(inputWav[i+j] * coeffMonte);
+                sequence.add(inputWav[i+j + offsetOptimal] * coeffMonte);
             }
             //boucle du milieu de sequence, sans changement
             for (int j = OVERLAP; j < SEQUENCE-OVERLAP; j++)
-                sequence.add(inputWav[i + j]);
+                sequence.add(inputWav[i + j + offsetOptimal]);
 
             //boucle de l'overlap de fin
             for (int j = SEQUENCE-OVERLAP; j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
-                sequence.add(inputWav[i+j] *coeffDescend);
+                sequence.add(inputWav[i+j + offsetOptimal] *coeffDescend);
             }
 
         }
