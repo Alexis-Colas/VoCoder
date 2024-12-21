@@ -1,4 +1,4 @@
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
@@ -80,9 +80,7 @@ public class Pauvocoder {
             indiceInit = (int) (newIndice * freqScale);
             newWav[newIndice] = inputWav[indiceInit];
         }
-        System.out.println("resample : ");
-        System.out.println("input " + inputWav.length );
-        System.out.println("output " + newWav.length );
+
         return newWav;
 
     }
@@ -96,7 +94,7 @@ public class Pauvocoder {
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
 
         if (dilatation <=0)
-            throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
+            throw new UnsupportedOperationException("the dilatation cannot be negative or equal at 0.");
 
         if (dilatation == 1)
             return inputWav;
@@ -117,9 +115,6 @@ public class Pauvocoder {
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
-        System.out.println("vocodeSimple : ");
-        System.out.println("input " + inputWav.length );
-        System.out.println("output " + dilatedWav.length );
 
         return dilatedWav;
     }
@@ -163,9 +158,6 @@ public class Pauvocoder {
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
-        System.out.println("vocodeSimpleOver : ");
-        System.out.println("input " + inputWav.length );
-        System.out.println("output " + dilatedWav.length );
 
         return dilatedWav;
     }
@@ -236,10 +228,6 @@ public class Pauvocoder {
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
-        System.out.println("vocodeSimpleOverCross : ");
-        System.out.println("input " + inputWav.length );
-        System.out.println("output " + dilatedWav.length );
-
         return dilatedWav;
 
     }
@@ -269,7 +257,7 @@ public class Pauvocoder {
 
         //compute how many samples are in the delay
         int nbEchantillonDelay = (int)(StdAudio.SAMPLE_RATE*delay)/1000;
-        double echoWav[] = new double[wav.length+nbEchantillonDelay];
+        double[] echoWav = new double[wav.length+nbEchantillonDelay];
 
         //add the sample of the delay and the gain
         for(int i = 0; i < wav.length; i++){
@@ -287,9 +275,7 @@ public class Pauvocoder {
                 echoWav[i] = -1.0;
 
         }
-        System.out.println("echo : ");
-        System.out.println("input " + wav.length );
-        System.out.println("output " + echoWav.length );
+
         return echoWav;
     }
 
