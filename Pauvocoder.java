@@ -197,6 +197,7 @@ public class Pauvocoder {
             //determiner le décalage optimal
             //initialiser un int optimal
             int offsetOptimal = 0;
+            double coorMaxi = Double.NEGATIVE_INFINITY;
 
             //boucle pour evaluer les décalage possibles
             //de 0 à la longueur de seekwindow
@@ -214,8 +215,10 @@ public class Pauvocoder {
                 }
 
                 // si la coorélation est supérieur à int optimal alors int optimal offset=> le décalage
-                if (coorelation > offsetOptimal)
+                if (coorelation >coorMaxi) {
+                    coorMaxi = coorelation;
                     offsetOptimal = offset;
+                }
 
             }
 
