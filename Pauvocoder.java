@@ -145,8 +145,9 @@ public class Pauvocoder {
 
         for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
 
+
             //boucle qui sur l'overlap du début, ajout du coef pondéré
-            for (int j = 0; j < OVERLAP; j++) {
+            for (int j = OVERLAP/2; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
                 sequence.add(inputWav[i+j] * coeffMonte);
             }
@@ -155,7 +156,7 @@ public class Pauvocoder {
                 sequence.add(inputWav[i + j]);
 
             //boucle de l'overlap de fin
-            for (int j = SEQUENCE-OVERLAP; j < SEQUENCE; j++) {
+            for (int j = SEQUENCE-(OVERLAP/2); j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
                 sequence.add(inputWav[i+j] *coeffDescend);
             }
@@ -219,7 +220,7 @@ public class Pauvocoder {
             }
 
             //boucle qui sur l'overlap du début, ajout du coef pondéré et ajout du offset optimal
-            for (int j = 0; j < OVERLAP; j++) {
+            for (int j = OVERLAP/2; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
                 sequence.add(inputWav[i+j + offsetOptimal] * coeffMonte);
             }
@@ -228,7 +229,7 @@ public class Pauvocoder {
                 sequence.add(inputWav[i + j + offsetOptimal]);
 
             //boucle de l'overlap de fin
-            for (int j = SEQUENCE-OVERLAP; j < SEQUENCE; j++) {
+            for (int j = SEQUENCE-(OVERLAP/2); j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
                 sequence.add(inputWav[i+j + offsetOptimal] *coeffDescend);
             }
