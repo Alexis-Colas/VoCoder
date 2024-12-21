@@ -80,6 +80,9 @@ public class Pauvocoder {
             indiceInit = (int) (newIndice * freqScale);
             newWav[newIndice] = inputWav[indiceInit];
         }
+        System.out.println("resample : ");
+        System.out.println("input " + inputWav.length );
+        System.out.println("output " + newWav.length );
         return newWav;
 
     }
@@ -114,6 +117,9 @@ public class Pauvocoder {
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
+        System.out.println("vocodeSimple : ");
+        System.out.println("input " + inputWav.length );
+        System.out.println("output " + dilatedWav.length );
 
         return dilatedWav;
     }
@@ -156,6 +162,10 @@ public class Pauvocoder {
         double[] dilatedWav = new double[sequence.size()];
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
+
+        System.out.println("vocodeSimpleOver : ");
+        System.out.println("input " + inputWav.length );
+        System.out.println("output " + dilatedWav.length );
 
         return dilatedWav;
     }
@@ -226,6 +236,10 @@ public class Pauvocoder {
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
 
+        System.out.println("vocodeSimpleOverCross : ");
+        System.out.println("input " + inputWav.length );
+        System.out.println("output " + dilatedWav.length );
+
         return dilatedWav;
 
     }
@@ -273,6 +287,9 @@ public class Pauvocoder {
                 echoWav[i] = -1.0;
 
         }
+        System.out.println("echo : ");
+        System.out.println("input " + wav.length );
+        System.out.println("output " + echoWav.length );
         return echoWav;
     }
 
