@@ -63,27 +63,23 @@ public class Pauvocoder {
      * @return resampled newWav
      */
     public static double[] resample(double[] inputWav, double freqScale) {
-        // Vérifie que "freqScale" ne soit pas égale à 0 ou inférieur.
+        //verify that freqScale isn't equal or inferior at 0
         if (freqScale <= 0) {
             throw new IllegalArgumentException("freqScale doit être strictement positif.");
         }
 
-        // Diviser la longueur du tableau "inputWav"
-        // par la fréquence pour obtenir la taille du nouveau tableau.
+        // divide by the table length
+        //by the frequency to obtain the size of the new modified signal table
         int tailleNewWav = (int) (inputWav.length / freqScale);
         double[] newWav = new double[tailleNewWav];
 
-        // Variable qui permet d'aller chercher la valeur dans "inputWav"
         int indiceInit;
-        // Boucle pour remplir le nouveau tableau "newWav"
+        // initialize the new table
         for (int newIndice = 0; newIndice < tailleNewWav; newIndice++) {
-            // Calcule l'indice de "inputWav"
-            // pour savoir la valeur qui va à l'indice "newIndice" dans "newWav"
+            //compute the new index
             indiceInit = (int) (newIndice * freqScale);
-            // Place la valeur a la position "newIndice" dans "newWav"
             newWav[newIndice] = inputWav[indiceInit];
         }
-        // VOIR SCHEMA i=placement
         return newWav;
 
     }
@@ -95,25 +91,25 @@ public class Pauvocoder {
      * @return dilated dilatedWav
      */
     public static double[] vocodeSimple(double[] inputWav, double dilatation) {
-        //message d'erreur si la valeur est négative ou égale à 0
+
         if (dilatation <=0)
             throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
 
         if (dilatation == 1)
             return inputWav;
 
-        //créer une liste qui contiendra tous les éléments
+        //inisalize new list that take the variables of the input
         ArrayList<Double> sequence = new ArrayList<>();
-        //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
+        // the step give the index of the beginning of the sequence, influenced by the dilatation
         int saut = (int) (SEQUENCE * dilatation);
 
-        //boucle qui copie les éléments de la sequence du tableaux initial dans la liste
+        //copie the elements of the sequence's input in the list
         for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
             for (int j = 0; j < SEQUENCE; j++)
                 sequence.add(inputWav[i + j]);
         }
 
-        //initalisation du tableau final dilaté et copie des éléments de la liste au tableau
+        //initalize the dilated table and copie from the list the elements
         double[] dilatedWav = new double[sequence.size()];
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
@@ -130,32 +126,26 @@ public class Pauvocoder {
      */
     public static double[] vocodeSimpleOver (double[] inputWav, double dilatation) {
 
-        //message d'erreur si la valeur est négative ou égale à 0
         if (dilatation <=0)
             throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
 
         if (dilatation == 1)
             return inputWav;
 
-        //créer une liste qui contiendra tous les éléments
         ArrayList<Double> sequence = new ArrayList<>();
-        //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
         int saut = (int) (SEQUENCE * dilatation);
 
-
         for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
-
-
-            //boucle qui sur l'overlap du début, ajout du coef pondéré
+            //on the first overlap, add the wheighted coefficient
             for (int j = OVERLAP/2; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
                 sequence.add(inputWav[i+j] * coeffMonte);
             }
-            //boucle du milieu de sequence, sans changement
+            //in the middle, no change
             for (int j = OVERLAP; j < SEQUENCE-OVERLAP; j++)
                 sequence.add(inputWav[i + j]);
 
-            //boucle de l'overlap de fin
+            //final overlap
             for (int j = SEQUENCE-(OVERLAP/2); j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
                 sequence.add(inputWav[i+j] *coeffDescend);
@@ -163,11 +153,9 @@ public class Pauvocoder {
 
         }
 
-        //initalisation du tableau final dilaté et copie des éléments de la liste au tableau
         double[] dilatedWav = new double[sequence.size()];
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
-
 
         return dilatedWav;
     }
@@ -180,60 +168,53 @@ public class Pauvocoder {
      */
     public static double[] vocodeSimpleOverCross(double[] inputWav, double dilatation) {
 
-        //message d'erreur si la valeur est négative ou égale à 0
         if (dilatation <=0)
             throw new UnsupportedOperationException("La dilatation ne peut pas être négative ou égale à 0.");
 
         if (dilatation == 1)
             return inputWav;
 
-        //créer une liste qui contiendra tous les éléments
         ArrayList<Double> sequence = new ArrayList<>();
-        //un saut permettant d'avoir l'indice de début de la sequence, influé par la dilatation
         int saut = (int) (SEQUENCE * dilatation);
 
         for (int i = 0; i <= inputWav.length - SEQUENCE; i += saut) {
-
-            //determiner le décalage optimal
-            //initialiser un int optimal
+            //initialize variable of the perfect offset and the maximum offset to compare to
             int offsetOptimal = 0;
-            double coorMaxi = Double.NEGATIVE_INFINITY;
+            double corrMax = Double.NEGATIVE_INFINITY;
 
-            //boucle pour evaluer les décalage possibles
-            //de 0 à la longueur de seekwindow
+            //evaluate the possible offset between the defined window
             for (int offset =0; offset < SEEK_WINDOW; offset ++){
-                //initialiser à 0 la coorélation croisée
-                double coorelation =0.0;
+                //initialize the crossed correlation
+                double correlation =0.0;
 
-                //boucle j=0 à overlap pour calculer la coorélation croisée
+                //compute the correlation
                 for (int j=0; j<OVERLAP; j++){
-                    int seqPrec = i + SEQUENCE - OVERLAP + j; //valeur fin sequence précédente
-                    int seqSuiv = i + offset + j ;           //valeur debut sequence suivante
+                    int seqPrec = i + SEQUENCE - OVERLAP + j; //variable of the end of the previous sequence
+                    int seqSuiv = i + offset + j ;           //variable of the beginning of the next sequence
 
                     if (seqSuiv < inputWav.length)
-                        coorelation += inputWav[seqPrec] * inputWav[seqSuiv];
+                        correlation += inputWav[seqPrec] * inputWav[seqSuiv];
                 }
-
-                // si la coorélation est supérieur à int optimal alors int optimal offset=> le décalage
-                if (coorelation >coorMaxi) {
-                    coorMaxi = coorelation;
+                //if the correlation is superior at the maximum correlation, then change the optimal offset
+                if ( correlation>corrMax) {
+                    corrMax = correlation;
                     offsetOptimal = offset;
                 }
 
             }
 
-            //boucle qui sur l'overlap du début, ajout du coef pondéré et ajout du offset optimal
+            //add coeff and the optimal offset
             for (int j = OVERLAP/2; j < OVERLAP; j++) {
                 double coeffMonte = (double) j / OVERLAP;
                 if (i + j + offsetOptimal < inputWav.length)
                     sequence.add(inputWav[i+j + offsetOptimal] * coeffMonte);
             }
-            //boucle du milieu de sequence, sans changement
+            //no coeff, juste add the offset
             for (int j = OVERLAP; j < SEQUENCE-OVERLAP; j++)
                 if (i + j + offsetOptimal < inputWav.length)
                     sequence.add(inputWav[i + j + offsetOptimal]);
 
-            //boucle de l'overlap de fin
+            //overlap of the end
             for (int j = SEQUENCE-(OVERLAP/2); j < SEQUENCE; j++) {
                 double coeffDescend = (double) (SEQUENCE - j - 1) / OVERLAP;
                 if (i + j + offsetOptimal < inputWav.length)
@@ -241,12 +222,9 @@ public class Pauvocoder {
             }
 
         }
-
-        //initalisation du tableau final dilaté et copie des éléments de la liste au tableau
         double[] dilatedWav = new double[sequence.size()];
         for (int i = 0; i < sequence.size(); i++)
             dilatedWav[i] = sequence.get(i);
-
 
         return dilatedWav;
 
@@ -269,26 +247,26 @@ public class Pauvocoder {
      * @return  echo echoWav
      */
     public static double[] echo(double[] wav, double delay, double gain) {
-        // s'assurer que delay et gain sont contenus et justes
+        //the selay and gain have to be contained
         if (gain<0 || gain>1)
             throw new UnsupportedOperationException("L'attenuation doit être contenu entre 0 et 1");
         if (delay <0 )
             throw new UnsupportedOperationException("Le delay ne peut pas être négatif");
 
-        // Calcule le nombre d'échantillon que représente delay
+        //compute how many samples are in the delay
         int nbEchantillonDelay = (int)(StdAudio.SAMPLE_RATE*delay)/1000;
         double echoWav[] = new double[wav.length+nbEchantillonDelay];
 
-        // Ajoute l'échantillon avec le delay et le gain
+        //add the sample of the delay and the gain
         for(int i = 0; i < wav.length; i++){
             echoWav[i+nbEchantillonDelay] = wav[i]*gain;
         }
 
-        // Ajoute le son de base a l'echo.
+        //add the echo to the input signal
         for (int i = 0; i<wav.length; i++) {
             echoWav[i] += wav[i];
 
-            //garder amplitude de -1/1
+            //make sure to have a range of -1 and 1
             if (echoWav[i] > 1.0)
                 echoWav[i] = 1.0;
             if(echoWav[i] < -1.0)
@@ -306,7 +284,7 @@ public class Pauvocoder {
 
         int taille = wav.length;
         int tabSeqTaille = 4000;
-        double pas = 0.8/tabSeqTaille; // 0.8 est la longueur de l'affichage
+        double pas = 0.8/tabSeqTaille; // 0.8 is the length of the display
         int seqTaille = taille/tabSeqTaille;
         double moyenne = 0.0;
 
