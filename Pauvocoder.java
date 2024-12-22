@@ -294,6 +294,7 @@ public class Pauvocoder {
         StdDraw.setYscale(-2, 2);
         StdDraw.setPenRadius(0.001);
 
+        StdDraw.clear();
         for(int i = 0; i < tabSeqTaille; i++){
             int start = i * seqTaille;
             int end = start + seqTaille;
